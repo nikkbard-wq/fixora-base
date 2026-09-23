@@ -46,3 +46,25 @@
 .demo-page .demo-menu button.active,.demo-page .mobile-more-trigger.active{background:#eef2ff;color:#4338ca;border-color:#d9ddff;box-shadow:none}
 .demo-page .demo-main{min-height:100vh;background:#f7f9fc}
 }
+
+
+/* QA FIX 2026-09-24: hidden overlays must not intercept the demo */
+.mobile-more-overlay[hidden],
+.demo-modal-backdrop[hidden],
+[hidden].mobile-more-overlay,
+[hidden].demo-modal-backdrop{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+  opacity:0 !important;
+}
+.mobile-more-overlay:not([hidden]){
+  display:block;
+}
+.demo-modal-backdrop:not([hidden]){
+  display:block;
+}
+@media(max-width:640px){
+  .demo-menu .mobile-more-trigger{display:none !important;}
+  .mobile-more-sheet:not(.open){pointer-events:none !important;}
+}
