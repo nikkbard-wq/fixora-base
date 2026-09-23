@@ -3,13 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#101828">
+  <meta name="theme-color" content="#ffffff">
   <meta name="description" content="Интерактивное демо FIXORA Base — закупки, склад и продажи.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.webmanifest">
   <title>Интерактивное демо — FIXORA Base</title>
   <link rel="stylesheet" href="assets/styles.css">
-</head>
+
+<style id="qa-hotfix">
+html,body,.demo-page,.demo-app,.demo-main{background:#f7f9fc!important;color:#101828!important}
+.demo-main{display:block!important;visibility:visible!important;opacity:1!important;min-height:100vh!important}
+.demo-sidebar{background:#fff!important;color:#101828!important;border-right:1px solid #e4e7ec!important;box-shadow:8px 0 28px rgba(16,24,40,.035)!important}
+.demo-brand{color:#101828!important}.demo-brand b{color:#667085!important}
+.demo-menu button{color:#667085!important;background:transparent!important}
+.demo-menu button.active{background:#eef2ff!important;color:#4338ca!important;border-color:#d9ddff!important;box-shadow:none!important}
+.demo-sidebar-footer,.demo-sidebar-footer a,.demo-mode{color:#667085!important}
+.demo-top,.demo-progress-strip,.demo-card,.ui-panel,.guide{background:#fff!important;color:#101828!important}
+.demo-panel{display:none!important}.demo-panel.active{display:block!important}
+.mobile-more-sheet{background:#fff!important;color:#101828!important}
+.qa-build{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;color:#4338ca;background:#eef2ff;border:1px solid #d9ddff;border-radius:999px;padding:4px 8px;margin-left:8px}
+@media(max-width:640px){
+ body.demo-page{padding-bottom:86px!important}
+ .demo-sidebar{position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;height:auto!important;background:rgba(255,255,255,.98)!important;border-top:1px solid #e4e7ec!important;border-right:0!important;box-shadow:0 -10px 30px rgba(16,24,40,.10)!important;padding:7px 8px calc(7px + env(safe-area-inset-bottom))!important}
+ .demo-brand,.demo-sidebar-footer{display:none!important}
+ .demo-menu{display:grid!important;grid-template-columns:repeat(6,1fr)!important;gap:3px!important}
+ .demo-menu button{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;padding:8px 2px!important;font-size:9px!important}
+ .demo-menu button[data-panel="settings"],.mobile-more-trigger{display:none!important}
+ .demo-menu .nav-txt{display:block!important;font-size:9px!important;color:inherit!important}
+ .demo-menu .nav-svg{width:18px!important;height:18px!important}
+ .demo-main{padding:14px 12px 22px!important}
+ .demo-top{display:flex!important}
+}
+</style></head>
 <body class="demo-page">
   <div class="demo-app">
     <aside class="demo-sidebar" aria-label="Навигация демо">
@@ -146,7 +171,7 @@
             <table class="table demo-table-mobile">
               <thead><tr><th>Компания</th><th>Роль</th><th>IDNO</th><th>Статус</th></tr></thead>
               <tbody id="demoPartners">
-                <tr><td data-label="Компания">Kaufland SRL</td><td data-label="Роль">Клиент</td><td data-label="IDNO">1003600000000</td><td data-label="Статус"><span class="badge b-success">Активен</span></td></tr>
+                <tr><td data-label="Компания">Demo Market SRL</td><td data-label="Роль">Клиент</td><td data-label="IDNO">1003600000000</td><td data-label="Статус"><span class="badge b-success">Активен</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -248,6 +273,79 @@
   </section>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="assets/demo.js"></script>
-</body>
+  
+
+<script id="qa-demo-runtime">
+(function(){
+  var KEY='fixora-demo-qa-20260924';
+  var initial={step:0,items:248,partners:62,onHand:650,reserved:0,item:false,supplier:false,receipt:false,client:false,order:false,reservedDone:false,shipped:false};
+  var s=Object.assign({},initial);
+  try{s=Object.assign({},initial,JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(e){}
+  var steps=[['Создать товар','catalog'],['Создать поставщика','partners'],['Провести приход','buy'],['Проверить склад','stock'],['Создать клиента','partners'],['Создать заказ','sell'],['Зарезервировать товар','sell'],['Отгрузить товар','sell'],['Проверить новый остаток','stock']];
+  var titles={dash:'Главная',catalog:'Товары',partners:'Контрагенты',buy:'Закупки',stock:'Склад',sell:'Продажи',settings:'Настройки'};
+  function $(id){return document.getElementById(id);}
+  function all(sel){return Array.prototype.slice.call(document.querySelectorAll(sel));}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  function toast(t){var el=$('toast');if(!el)return;el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('show');},1500);}
+  function row(cells){return '<tr>'+cells.map(function(x){return '<td data-label="'+x[0]+'">'+x[1]+'</td>';}).join('')+'</tr>';}
+  function panel(id){
+    all('.demo-panel').forEach(function(x){x.classList.toggle('active',x.id===id);});
+    all('.demo-menu [data-panel]').forEach(function(x){x.classList.toggle('active',x.dataset.panel===id);});
+    if($('panelTitle'))$('panelTitle').textContent=titles[id]||'FIXORA';
+    if(id==='stock'&&s.receipt&&s.step===3){s.step=4;save();render();toast('Остаток проверен');}
+    if(id==='stock'&&s.shipped&&s.step===8){s.step=9;save();render();toast('Сценарий завершён');}
+    window.scrollTo(0,0);
+  }
+  function ensureRows(){
+    if(s.item&&!$('qaItem')&&$('demoItems'))$('demoItems').insertAdjacentHTML('afterbegin',row([['Товар','Демо-товар'],['Артикул','DEM-001'],['Ед.','кг'],['Остаток','0'],['Статус','<span class="badge b-success">Активен</span>']]).replace('<tr>','<tr id="qaItem">'));
+    if(s.supplier&&!$('qaSupplier')&&$('demoPartners'))$('demoPartners').insertAdjacentHTML('afterbegin',row([['Компания','Demo Supply SRL'],['Роль','Поставщик'],['IDNO','1000000000001'],['Статус','<span class="badge b-success">Активен</span>']]).replace('<tr>','<tr id="qaSupplier">'));
+    if(s.client&&!$('qaClient')&&$('demoPartners'))$('demoPartners').insertAdjacentHTML('afterbegin',row([['Компания','Demo Retail SRL'],['Роль','Клиент'],['IDNO','1000000000002'],['Статус','<span class="badge b-success">Активен</span>']]).replace('<tr>','<tr id="qaClient">'));
+    if(s.receipt&&!$('qaReceiptMove')&&$('stockMoves')){
+      $('stockMoves').insertAdjacentHTML('afterbegin',row([['Тип','Приход'],['Источник','PR-DEMO-001'],['Количество','+500 кг'],['Результат',s.onHand+' кг']]).replace('<tr>','<tr id="qaReceiptMove">'));
+      if($('ops'))$('ops').insertAdjacentHTML('afterbegin',row([['Время','Сейчас'],['Операция','Приход'],['Документ','PR-DEMO-001'],['Количество','+500 кг'],['Статус','<span class="badge b-success">Проведено</span>']]).replace('<tr>','<tr id="qaReceiptOp">'));
+    }
+    if(s.shipped&&!$('qaShipMove')&&$('stockMoves')){
+      $('stockMoves').insertAdjacentHTML('afterbegin',row([['Тип','Расход'],['Источник','SH-DEMO-001'],['Количество','−200 кг'],['Результат',s.onHand+' кг']]).replace('<tr>','<tr id="qaShipMove">'));
+      if($('ops'))$('ops').insertAdjacentHTML('afterbegin',row([['Время','Сейчас'],['Операция','Отгрузка'],['Документ','SH-DEMO-001'],['Количество','−200 кг'],['Статус','<span class="badge b-success">Проведено</span>']]).replace('<tr>','<tr id="qaShipOp">'));
+    }
+  }
+  function setText(id,v){var e=$(id);if(e)e.textContent=v;}
+  function render(){
+    ensureRows();
+    setText('metricItems',s.items);setText('metricPartners',s.partners);
+    setText('metricStock',s.onHand);setText('stockOnHand',s.onHand);
+    setText('metricReserved',s.reserved);setText('stockReserved',s.reserved);
+    setText('stockAvailable',s.onHand-s.reserved);setText('orderAvailable',(s.onHand-s.reserved)+' кг');
+    var done=Math.min(s.step,9);
+    if($('progressBar'))$('progressBar').style.width=(done/9*100)+'%';
+    setText('progressCount',done+' / 9');
+    setText('currentStepTitle',s.step>=9?'Сценарий завершён — остаток '+s.onHand+' кг':'Шаг '+(s.step+1)+' из 9 — '+steps[s.step][0]);
+    if($('guideSteps'))$('guideSteps').innerHTML=steps.map(function(x,i){return '<div class="guide-step '+(i<s.step?'done ':'')+(i===s.step?'current':'')+'"><div class="step-n">'+(i<s.step?'✓':i+1)+'</div><div class="txt"><b>'+x[0]+'</b></div></div>';}).join('');
+    if($('createItem')){$('createItem').disabled=s.item;$('createItem').textContent=s.item?'Товар создан ✓':'+ Создать товар';}
+    if($('createSupplier')){$('createSupplier').disabled=s.supplier;$('createSupplier').textContent=s.supplier?'Поставщик создан ✓':'+ Поставщик';}
+    if($('createClient')){$('createClient').disabled=s.client;$('createClient').textContent=s.client?'Клиент создан ✓':'+ Клиент';}
+    if($('postReceipt')){$('postReceipt').disabled=s.receipt;}
+    setText('receiptStatus',s.receipt?'Проведён':'Черновик');
+    if($('createOrder'))$('createOrder').disabled=s.order;
+    if($('reserveOrder'))$('reserveOrder').disabled=!s.order||s.reservedDone;
+    if($('shipOrder'))$('shipOrder').disabled=!s.reservedDone||s.shipped;
+    setText('orderStatus',s.shipped?'Отгружен':s.reservedDone?'Зарезервирован':s.order?'Подтверждён':'Черновик');
+    if($('nextStep'))$('nextStep').disabled=s.step>=9;
+  }
+  all('.demo-menu [data-panel]').forEach(function(b){b.onclick=function(){panel(b.dataset.panel);};});
+  all('[data-panel-jump]').forEach(function(b){b.onclick=function(){panel(b.dataset.panelJump);};});
+  if($('nextStep'))$('nextStep').onclick=function(){if(s.step<9)panel(steps[s.step][1]);};
+  if($('resetDemo'))$('resetDemo').onclick=function(){try{localStorage.removeItem(KEY);}catch(e){}location.reload();};
+  if($('createItem'))$('createItem').onclick=function(){if(s.item)return;s.item=true;s.items++;s.step=Math.max(s.step,1);save();render();toast('Товар создан');panel('partners');};
+  if($('createSupplier'))$('createSupplier').onclick=function(){if(s.supplier)return;s.supplier=true;s.partners++;s.step=Math.max(s.step,2);save();render();toast('Поставщик создан');panel('buy');};
+  if($('postReceipt'))$('postReceipt').onclick=function(){if(!s.item||!s.supplier){toast('Сначала создайте товар и поставщика');return;}if(s.receipt)return;s.receipt=true;s.onHand+=500;s.step=Math.max(s.step,3);save();render();toast('Приход проведён');panel('stock');};
+  if($('createClient'))$('createClient').onclick=function(){if(s.client)return;s.client=true;s.partners++;s.step=Math.max(s.step,5);save();render();toast('Клиент создан');panel('sell');};
+  if($('createOrder'))$('createOrder').onclick=function(){if(!s.client){toast('Сначала создайте клиента');panel('partners');return;}s.order=true;s.step=Math.max(s.step,6);save();render();toast('Заказ создан');};
+  if($('reserveOrder'))$('reserveOrder').onclick=function(){if(!s.order)return;s.reservedDone=true;s.reserved=200;s.step=Math.max(s.step,7);save();render();toast('200 кг зарезервировано');};
+  if($('shipOrder'))$('shipOrder').onclick=function(){if(!s.reservedDone)return;s.shipped=true;s.onHand-=200;s.reserved=0;s.step=Math.max(s.step,8);save();render();toast('Отгрузка проведена');panel('stock');};
+  var hdr=document.querySelector('.demo-title-block .small.muted');if(hdr&&!document.querySelector('.qa-build'))hdr.insertAdjacentHTML('beforeend','<span class="qa-build">QA build 2026-09-24</span>');
+  render();panel('dash');
+  window.FIXORA_DEMO_QA={getState:function(){return Object.assign({},s);},runScenario:function(){s=Object.assign({},initial,{item:true,supplier:true,receipt:true,client:true,order:true,reservedDone:true,shipped:true,items:249,partners:64,onHand:950,reserved:0,step:9});save();render();return Object.assign({},s);}};
+})();
+</script></body>
 </html>
