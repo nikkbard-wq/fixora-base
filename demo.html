@@ -48,3 +48,206 @@
           <span class="nav-txt">Настройки</span>
         </button>
         <button class="mobile-more-trigger" id="mobileMoreTrigger" aria-label="Ещё" aria-expanded="false">
+          <span class="nav-ico" aria-hidden="true"><svg class="nav-svg" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span>
+          <span class="nav-txt">Ещё</span>
+        </button>
+      </nav>
+
+      <div class="demo-sidebar-footer">
+        <span class="demo-mode"><i></i> Демо-режим</span>
+        <a href="index.html">← Вернуться на сайт</a>
+      </div>
+    </aside>
+
+    <main class="demo-main">
+      <header class="demo-top">
+        <div class="demo-title-block">
+          <div class="small muted">FIXORA Base · интерактивный сценарий</div>
+          <h1 id="panelTitle">Главная</h1>
+        </div>
+        <div class="demo-actionbar">
+          <button class="btn btn-sm" id="resetDemo">Сбросить демо</button>
+          <button class="btn btn-accent btn-sm" id="nextStep">Следующий шаг →</button>
+        </div>
+      </header>
+
+      <section class="demo-progress-strip" aria-live="polite">
+        <div class="demo-progress-head">
+          <div>
+            <div class="small muted">Прогресс сценария</div>
+            <div class="demo-progress-title" id="currentStepTitle">Шаг 1 из 9 — Создать товар</div>
+          </div>
+          <div class="demo-progress-count" id="progressCount">0 / 9</div>
+        </div>
+        <div class="demo-progressbar" aria-hidden="true"><span id="progressBar"></span></div>
+      </section>
+
+      <section class="demo-panel active" id="dash">
+        <div class="demo-grid">
+          <button class="demo-card metric-link" data-panel-jump="catalog"><div class="dlabel">Товары</div><div class="dvalue" id="metricItems">248</div><div class="dmeta">Открыть справочник →</div></button>
+          <button class="demo-card metric-link" data-panel-jump="partners"><div class="dlabel">Контрагенты</div><div class="dvalue" id="metricPartners">62</div><div class="dmeta">Клиенты и поставщики →</div></button>
+          <button class="demo-card metric-link" data-panel-jump="stock"><div class="dlabel">Филе · в наличии</div><div class="dvalue"><span id="metricStock">650</span> кг</div><div class="dmeta">Посмотреть склад →</div></button>
+          <button class="demo-card metric-link" data-panel-jump="stock"><div class="dlabel">Филе · зарезервировано</div><div class="dvalue"><span id="metricReserved">0</span> кг</div><div class="dmeta">Посмотреть резерв →</div></button>
+        </div>
+
+        <div class="demo-columns">
+          <div class="ui-panel">
+            <div class="ui-head">
+              <div>
+                <div class="ui-title">Последние операции</div>
+                <div class="card-sub">Демонстрационные данные</div>
+              </div>
+              <span class="badge b-blue">Сегодня</span>
+            </div>
+            <div class="table-wrap">
+              <table class="table demo-table-mobile">
+                <thead><tr><th>Время</th><th>Операция</th><th>Документ</th><th>Количество</th><th>Статус</th></tr></thead>
+                <tbody id="ops">
+                  <tr><td data-label="Время">10:42</td><td data-label="Операция">Отгрузка</td><td data-label="Документ">SH-0201</td><td data-label="Количество">−200 кг</td><td data-label="Статус"><span class="badge b-success">Проведено</span></td></tr>
+                  <tr><td data-label="Время">09:18</td><td data-label="Операция">Приход</td><td data-label="Документ">PR-0131</td><td data-label="Количество">+600 кг</td><td data-label="Статус"><span class="badge b-success">Проведено</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <aside class="guide">
+            <div class="guide-head"><div><div class="small muted">Пошаговый сценарий</div><h3>От товара до отгрузки</h3></div><span class="guide-chip">9 шагов</span></div>
+            <div id="guideSteps"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-panel" id="catalog">
+        <div class="ui-panel">
+          <div class="ui-head">
+            <div><div class="ui-title">Товары</div><div class="card-sub">Единый справочник товаров и услуг</div></div>
+            <button class="btn btn-accent btn-sm" id="createItem">+ Создать товар</button>
+          </div>
+          <div class="demo-filterbar"><input class="search" placeholder="Поиск по названию или артикулу"><button class="btn btn-sm">Категория: все</button><button class="btn btn-sm">Статус: активные</button></div>
+          <div class="table-wrap">
+            <table class="table demo-table-mobile">
+              <thead><tr><th>Товар</th><th>Артикул</th><th>Ед.</th><th>Остаток</th><th>Статус</th></tr></thead>
+              <tbody id="demoItems">
+                <tr><td data-label="Товар">Филе куриное</td><td data-label="Артикул">FIL-001</td><td data-label="Ед.">кг</td><td data-label="Остаток">650</td><td data-label="Статус"><span class="badge b-success">Активен</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-panel" id="partners">
+        <div class="ui-panel">
+          <div class="ui-head">
+            <div><div class="ui-title">Контрагенты</div><div class="card-sub">Клиенты и поставщики в одном справочнике</div></div>
+            <div class="toolbar"><button class="btn btn-sm" id="createSupplier">+ Поставщик</button><button class="btn btn-accent btn-sm" id="createClient">+ Клиент</button></div>
+          </div>
+          <div class="demo-filterbar"><input class="search" placeholder="Название или IDNO"><button class="btn btn-sm">Роль: все</button></div>
+          <div class="table-wrap">
+            <table class="table demo-table-mobile">
+              <thead><tr><th>Компания</th><th>Роль</th><th>IDNO</th><th>Статус</th></tr></thead>
+              <tbody id="demoPartners">
+                <tr><td data-label="Компания">Kaufland SRL</td><td data-label="Роль">Клиент</td><td data-label="IDNO">1003600000000</td><td data-label="Статус"><span class="badge b-success">Активен</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-panel" id="buy">
+        <div class="ui-panel document-card">
+          <div class="ui-head"><div><div class="ui-title">Новый приход</div><div class="card-sub">Простой сценарий без заказа поставщику</div></div><span class="badge b-draft" id="receiptStatus">Черновик</span></div>
+          <div class="ui-body">
+            <div class="document-number"><span>Документ</span><strong>PR-DEMO-001</strong></div>
+            <div class="form-grid">
+              <div class="field"><label>Поставщик</label><input class="input" id="receiptSupplier" value="Демо-поставщик SRL"></div>
+              <div class="field"><label>Склад</label><input class="input" value="Основной склад"></div>
+              <div class="field"><label>Товар</label><input class="input" value="Филе куриное"></div>
+              <div class="field"><label>Количество</label><input class="input" value="500 кг"></div>
+            </div>
+            <div class="document-summary"><span>Результат проведения</span><strong>+500 кг на основной склад</strong></div>
+            <div class="form-actions"><button class="btn btn-accent" id="postReceipt">Провести приход</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-panel" id="stock">
+        <div class="demo-grid demo-stock-metrics">
+          <div class="demo-card"><div class="dlabel">В наличии</div><div class="dvalue"><span id="stockOnHand">650</span> кг</div><div class="dmeta">Физически на складе</div></div>
+          <div class="demo-card"><div class="dlabel">Зарезервировано</div><div class="dvalue"><span id="stockReserved">0</span> кг</div><div class="dmeta">Под заказы клиентов</div></div>
+          <div class="demo-card"><div class="dlabel">Доступно</div><div class="dvalue"><span id="stockAvailable">650</span> кг</div><div class="dmeta">Можно продать</div></div>
+        </div>
+        <div class="ui-panel" style="margin-top:14px">
+          <div class="ui-head"><div><div class="ui-title">Движения склада</div><div class="card-sub">Каждое движение связано с исходным документом</div></div><span class="badge b-blue">Филе куриное</span></div>
+          <div class="table-wrap">
+            <table class="table demo-table-mobile">
+              <thead><tr><th>Тип</th><th>Источник</th><th>Количество</th><th>Результат</th></tr></thead>
+              <tbody id="stockMoves">
+                <tr><td data-label="Тип"><span class="movement movement-out">Расход</span></td><td data-label="Источник">SH-0201</td><td data-label="Количество">−200 кг</td><td data-label="Результат">650 кг</td></tr>
+                <tr><td data-label="Тип"><span class="movement movement-in">Приход</span></td><td data-label="Источник">PR-0131</td><td data-label="Количество">+600 кг</td><td data-label="Результат">850 кг</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-panel" id="sell">
+        <div class="ui-panel document-card">
+          <div class="ui-head"><div><div class="ui-title">Заказ клиента</div><div class="card-sub">Филе куриное · 200 кг</div></div><span class="badge b-draft" id="orderStatus">Черновик</span></div>
+          <div class="ui-body">
+            <div class="document-number"><span>Заказ</span><strong>SO-DEMO-001</strong></div>
+            <div class="form-grid">
+              <div class="field"><label>Клиент</label><input class="input" id="orderClient" value="Демо-клиент SRL"></div>
+              <div class="field"><label>Склад</label><input class="input" value="Основной склад"></div>
+              <div class="field"><label>Товар</label><input class="input" value="Филе куриное"></div>
+              <div class="field"><label>Количество</label><input class="input" value="200 кг"></div>
+            </div>
+            <div class="order-availability"><span><i></i> Доступно сейчас</span><strong id="orderAvailable">650 кг</strong></div>
+            <div class="form-actions form-actions-demo">
+              <button class="btn" id="createOrder">Создать заказ</button>
+              <button class="btn btn-accent" id="reserveOrder">Зарезервировать</button>
+              <button class="btn btn-primary" id="shipOrder">Отгрузить</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-panel" id="settings">
+        <div class="two-col settings-grid">
+          <div class="card card-pad">
+            <div class="card-title">Настройки Базы</div>
+            <p class="small muted">В демо доступны базовые параметры интерфейса и справочников.</p>
+            <div class="field" style="margin-top:18px"><label>Основной склад</label><input class="input" value="Основной склад"></div>
+            <div class="field" style="margin-top:12px"><label>Язык интерфейса</label><input class="input" value="Русский"></div>
+          </div>
+          <div class="card card-pad">
+            <div class="card-title">Расширения</div>
+            <p class="small muted">Финансы, OCR и ИИ, интеграция с 1С, производство и WMS подключаются отдельно и не входят в базовую версию.</p>
+            <a class="btn btn-sm" href="extensions.html" style="margin-top:18px">Посмотреть расширения →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="mobile-more-overlay" id="mobileMoreOverlay" hidden></div>
+  <section class="mobile-more-sheet" id="mobileMoreSheet" aria-label="Дополнительные разделы" aria-hidden="true">
+    <div class="sheet-grabber" aria-hidden="true"></div>
+    <div class="sheet-head"><div><div class="small muted">FIXORA Base</div><strong>Другие разделы</strong></div><button class="sheet-close" id="mobileMoreClose" aria-label="Закрыть">×</button></div>
+    <div class="sheet-grid">
+      <button data-sheet-panel="catalog"><span class="sheet-icon">▣</span><span>Товары</span></button>
+      <button data-sheet-panel="partners"><span class="sheet-icon">◎</span><span>Контрагенты</span></button>
+      <button data-sheet-panel="settings"><span class="sheet-icon">⚙</span><span>Настройки</span></button>
+      <a href="index.html"><span class="sheet-icon">↗</span><span>На сайт</span></a>
+    </div>
+  </section>
+
+  <div class="demo-modal-backdrop" id="demoModalBackdrop" hidden></div>
+  <section class="demo-modal" id="demoModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="demoModalTitle">
+    <div class="demo-modal-head"><div><div class="small muted" id="demoModalKicker">Новая запись</div><h2 id="demoModalTitle">Создать</h2></div><button class="sheet-close" id="demoModalClose" aria-label="Закрыть">×</button></div>
+    <form id="demoModalForm"><div class="demo-modal-body" id="demoModalBody"></div><div class="demo-modal-actions"><button class="btn" type="button" id="demoModalCancel">Отмена</button><button class="btn btn-accent" type="submit" id="demoModalSubmit">Создать</button></div></form>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets/demo.js"></script>
+</body>
+</html>
