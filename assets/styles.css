@@ -23,3 +23,26 @@
 }
 @media(max-width:390px){.demo-grid{grid-template-columns:1fr}.demo-table-mobile td{grid-template-columns:92px 1fr}.sheet-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.001ms!important;animation-duration:.001ms!important}}
+
+/* FIXORA Demo v2 — light application shell */
+.demo-page{background:#f7f9fc;color:#101828}
+.demo-page .demo-main{background:#f7f9fc}
+.demo-page .demo-sidebar{background:#fff;color:#101828;border-right:1px solid #e6eaf0;box-shadow:8px 0 28px rgba(16,24,40,.035)}
+.demo-page .demo-brand{color:#101828}
+.demo-page .demo-brand b{color:#667085}
+.demo-page .demo-menu button{color:#667085;background:transparent}
+.demo-page .demo-menu button:hover{background:#f4f6fb;color:#344054;border-color:#eaecf0}
+.demo-page .demo-menu button.active{background:#eef2ff;color:#4338ca;border-color:#d9ddff;box-shadow:0 6px 18px rgba(79,70,229,.08)}
+.demo-page .demo-menu .nav-ico{color:currentColor}
+.demo-page .demo-sidebar-footer{border-top:1px solid #eef0f4}
+.demo-page .demo-sidebar-footer a,.demo-page .demo-mode{color:#667085}
+.demo-page .demo-mode i{background:#12b76a}
+.demo-page .demo-top,.demo-page .demo-progress-strip,.demo-page .demo-card,.demo-page .ui-panel,.demo-page .guide{background:#fff}
+.demo-page .metric-link{color:#101828}
+.demo-page .demo-filterbar{background:#fbfcfe}
+@media(max-width:640px){
+.demo-page .demo-sidebar{background:rgba(255,255,255,.98);border-top:1px solid #e4e7ec;border-right:0;box-shadow:0 -10px 28px rgba(16,24,40,.10);backdrop-filter:blur(18px)}
+.demo-page .demo-menu button{color:#7b8496}
+.demo-page .demo-menu button.active,.demo-page .mobile-more-trigger.active{background:#eef2ff;color:#4338ca;border-color:#d9ddff;box-shadow:none}
+.demo-page .demo-main{min-height:100vh;background:#f7f9fc}
+}
