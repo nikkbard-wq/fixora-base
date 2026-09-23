@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="Интерактивное демо FIXORA Base — закупки, склад и продажи.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="manifest" href="manifest.webmanifest?v=20260924-final1">
   <title>Интерактивное демо — FIXORA Base</title>
-  <link rel="stylesheet" href="assets/styles.css?v=20260924-overlayfix1">
+  <link rel="stylesheet" href="assets/styles.css?v=20260924-final1">
 
 <style id="qa-hotfix">
 html,body,.demo-page,.demo-app,.demo-main{background:#f7f9fc!important;color:#101828!important}
@@ -38,6 +38,12 @@ html,body,.demo-page,.demo-app,.demo-main{background:#f7f9fc!important;color:#10
 .mobile-more-overlay[hidden],.demo-modal-backdrop[hidden]{display:none!important;visibility:hidden!important;pointer-events:none!important;opacity:0!important}
 .mobile-more-sheet:not(.open){pointer-events:none!important}
 @media(max-width:640px){.demo-menu .mobile-more-trigger{display:none!important}}
+
+.demo-back-site{white-space:nowrap}
+@media(max-width:640px){
+  .demo-actionbar{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .demo-actionbar .demo-back-site{grid-column:1/-1!important;text-align:center!important;justify-content:center!important}
+}
 </style></head>
 <body class="demo-page">
   <div class="demo-app">
@@ -91,7 +97,7 @@ html,body,.demo-page,.demo-app,.demo-main{background:#f7f9fc!important;color:#10
           <div class="small muted">FIXORA Base · интерактивный сценарий</div>
           <h1 id="panelTitle">Главная</h1>
         </div>
-        <div class="demo-actionbar">
+        <div class="demo-actionbar"><a class="btn btn-sm demo-back-site" href="index.html?v=20260924-final1" aria-label="Вернуться на главный сайт">← На главный сайт</a>
           <button class="btn btn-sm" id="resetDemo">Сбросить демо</button>
           <button class="btn btn-accent btn-sm" id="nextStep">Следующий шаг →</button>
         </div>
@@ -253,27 +259,7 @@ html,body,.demo-page,.demo-app,.demo-main{background:#f7f9fc!important;color:#10
         </div>
       </section>
     </main>
-  </div>
-
-  <div class="mobile-more-overlay" id="mobileMoreOverlay" hidden style="display:none!important;pointer-events:none!important"></div>
-  <section class="mobile-more-sheet" id="mobileMoreSheet" aria-label="Дополнительные разделы" aria-hidden="true">
-    <div class="sheet-grabber" aria-hidden="true"></div>
-    <div class="sheet-head"><div><div class="small muted">FIXORA Base</div><strong>Другие разделы</strong></div><button class="sheet-close" id="mobileMoreClose" aria-label="Закрыть">×</button></div>
-    <div class="sheet-grid">
-      <button data-sheet-panel="catalog"><span class="sheet-icon">▣</span><span>Товары</span></button>
-      <button data-sheet-panel="partners"><span class="sheet-icon">◎</span><span>Контрагенты</span></button>
-      <button data-sheet-panel="settings"><span class="sheet-icon">⚙</span><span>Настройки</span></button>
-      <a href="index.html"><span class="sheet-icon">↗</span><span>На сайт</span></a>
-    </div>
-  </section>
-
-  <div class="demo-modal-backdrop" id="demoModalBackdrop" hidden style="display:none!important;pointer-events:none!important"></div>
-  <section class="demo-modal" id="demoModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="demoModalTitle">
-    <div class="demo-modal-head"><div><div class="small muted" id="demoModalKicker">Новая запись</div><h2 id="demoModalTitle">Создать</h2></div><button class="sheet-close" id="demoModalClose" aria-label="Закрыть">×</button></div>
-    <form id="demoModalForm"><div class="demo-modal-body" id="demoModalBody"></div><div class="demo-modal-actions"><button class="btn" type="button" id="demoModalCancel">Отмена</button><button class="btn btn-accent" type="submit" id="demoModalSubmit">Создать</button></div></form>
-  </section>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div><div class="toast" id="toast" role="status" aria-live="polite"></div>
   
 
 <script id="qa-demo-runtime">
@@ -344,7 +330,7 @@ html,body,.demo-page,.demo-app,.demo-main{background:#f7f9fc!important;color:#10
   if($('createOrder'))$('createOrder').onclick=function(){if(!s.client){toast('Сначала создайте клиента');panel('partners');return;}s.order=true;s.step=Math.max(s.step,6);save();render();toast('Заказ создан');};
   if($('reserveOrder'))$('reserveOrder').onclick=function(){if(!s.order)return;s.reservedDone=true;s.reserved=200;s.step=Math.max(s.step,7);save();render();toast('200 кг зарезервировано');};
   if($('shipOrder'))$('shipOrder').onclick=function(){if(!s.reservedDone)return;s.shipped=true;s.onHand-=200;s.reserved=0;s.step=Math.max(s.step,8);save();render();toast('Отгрузка проведена');panel('stock');};
-  var hdr=document.querySelector('.demo-title-block .small.muted');if(hdr&&!document.querySelector('.qa-build'))hdr.insertAdjacentHTML('beforeend','<span class="qa-build">QA build 2026-09-24</span>');
+  var hdr=document.querySelector('.demo-title-block .small.muted');if(hdr&&!document.querySelector('.qa-build'))hdr.insertAdjacentHTML('beforeend','');
   render();panel('dash');
   window.FIXORA_DEMO_QA={getState:function(){return Object.assign({},s);},runScenario:function(){s=Object.assign({},initial,{item:true,supplier:true,receipt:true,client:true,order:true,reservedDone:true,shipped:true,items:249,partners:64,onHand:950,reserved:0,step:9});save();render();return Object.assign({},s);}};
 })();
