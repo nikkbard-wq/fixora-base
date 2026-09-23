@@ -27,7 +27,7 @@ jobs:
       - name: Rebuild site from source bundle
         run: |
           mkdir -p _site
-          base64 -d .site.tar.gz.b64 > /tmp/site.tar.gz
+          base64 -d < .site.tar.gz.b64 > /tmp/site.tar.gz
           tar -xzf /tmp/site.tar.gz -C _site
           test -f _site/index.html
           test -f _site/assets/app.js
