@@ -1,0 +1,10 @@
+{
+  "name": "FIXORA Base",
+  "short_name": "FIXORA",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#101828",
+  "lang": "ru",
+  "icons": []
+}
