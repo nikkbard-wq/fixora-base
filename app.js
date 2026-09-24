@@ -1,6 +1,64 @@
 (() => {
   const q=(s,r=document)=>r.querySelector(s), qa=(s,r=document)=>[...r.querySelectorAll(s)];
 
+  // Premium global UX
+  const progress=document.createElement('div');
+  progress.className='fx-scroll-progress';
+  document.body.appendChild(progress);
+
+  const header=q('.site-header');
+  const setScrollState=()=>{
+    const h=document.documentElement;
+    const max=Math.max(1,h.scrollHeight-h.clientHeight);
+    progress.style.width=Math.min(100,(h.scrollTop/max)*100)+'%';
+    if(header) header.classList.toggle('fx-scrolled',h.scrollTop>18);
+  };
+  document.addEventListener('scroll',setScrollState,{passive:true});
+  setScrollState();
+
+  const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+  qa('.site-header nav a,.mobile-menu a').forEach(a=>{
+    const href=(a.getAttribute('href')||'').split('#')[0].toLowerCase();
+    if(href===current || (current==='index.html' && href==='index.html')) a.setAttribute('aria-current','page');
+  });
+
+  const backdrop=document.createElement('div');
+  backdrop.className='fx-menu-backdrop';
+  document.body.appendChild(backdrop);
+  const mobileToggle=q('.mobile-toggle'), mobileMenu=q('.mobile-menu');
+  const closeMenu=()=>{mobileMenu?.classList.remove('open');backdrop.classList.remove('open');document.body.style.overflow=''};
+  const openMenu=()=>{mobileMenu?.classList.add('open');backdrop.classList.add('open');document.body.style.overflow='hidden'};
+  if(mobileToggle&&mobileMenu){
+    const clone=mobileToggle.cloneNode(true); mobileToggle.replaceWith(clone);
+    clone.addEventListener('click',()=>mobileMenu.classList.contains('open')?closeMenu():openMenu());
+    backdrop.addEventListener('click',closeMenu);
+    qa('a',mobileMenu).forEach(a=>a.addEventListener('click',closeMenu));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+  }
+
+  const revealTargets=qa('.section-heading,.cap-card,.split-panel,.cta-card,.page-hero>*,.app-mockup,.product-card,.partner-card,.purchase-card,.inventory-card,.sales-card,.price-card,.trace-card,.architecture-card,.business-card,.extension-card,.principle-card,.demo-shell,#demoApp');
+  revealTargets.forEach(el=>el.classList.add('fx-reveal'));
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('fx-visible');io.unobserve(entry.target)}});
+  },{threshold:.09,rootMargin:'0px 0px -30px'});
+  revealTargets.forEach(el=>io.observe(el));
+
+  qa('.cap-grid,.business-grid,.extension-grid,.principles-grid').forEach(group=>{
+    group.classList.add('fx-stagger');
+    [...group.children].forEach((child,i)=>child.style.setProperty('--i',i));
+  });
+
+  qa('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+    const id=a.getAttribute('href');
+    if(!id || id==='#')return;
+    const target=q(id);
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'});}
+  }));
+})();
+
+(() => {
+  const q=(s,r=document)=>r.querySelector(s), qa=(s,r=document)=>[...r.querySelectorAll(s)];
+
   const mobileToggle=q('.mobile-toggle'), mobileMenu=q('.mobile-menu');
   if(mobileToggle&&mobileMenu) mobileToggle.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
 
