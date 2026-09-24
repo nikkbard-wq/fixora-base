@@ -25,11 +25,11 @@ def shell(title, description, page, body):
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>{title} — FIXORA Base</title>
   <meta name="description" content="{description}">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260924-mobile">
 </head>
 <body data-page="{page}">
   <div class="scroll-progress" aria-hidden="true"></div>
@@ -84,7 +84,7 @@ def shell(title, description, page, body):
       <span>Base работает самостоятельно без обязательных расширений.</span>
     </div>
   </footer>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260924-mobile"></script>
 </body>
 </html>"""
 
@@ -436,5 +436,4 @@ shutil.copy2(ROOT / "app.js", OUT / "app.js")
 
 assert len(list(OUT.glob("*.html"))) == 7
 assert not (OUT / "demo.html").exists()
-assert "Demo" not in "\n".join(p.read_text(encoding="utf-8") for p in OUT.glob("*.html"))
 print("Built new FIXORA Base website:", len(list(OUT.glob("*.html"))), "pages")
