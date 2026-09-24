@@ -1,17 +1,34 @@
 # FIXORA Base Product Website
 
-Статический многостраничный Product Website + интерактивное Demo.
+Современный многостраничный Product Website + интерактивное Demo для FIXORA Base.
 
-## Запуск
+## Что внутри
 
-В каталоге проекта:
+- 15 продуктовых страниц
+- Catalog / Partners / Purchasing / Inventory / Sales
+- интерактивные business-flow схемы
+- responsive layout
+- simulated frontend Demo
+- GitHub Pages deployment
+
+## Локальный запуск
+
+Можно открыть `index.html` напрямую или запустить локальный сервер:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Откройте `http://localhost:8080`.
+Затем открыть `http://localhost:8080`.
 
-Основные страницы: Home, Overview, Catalog, Partners, Purchasing, Inventory, Sales, Prices, How it works, Traceability, For whom, Extensions, Base Architecture, Principles, Demo.
+## GitHub Pages
+
+Публикация выполняется автоматически через workflow `.github/workflows/pages.yml`.
+
+Сборка:
+1. восстанавливает генератор сайта;
+2. создаёт все страницы в `_site`;
+3. добавляет CSS и JavaScript;
+4. публикует `_site` через GitHub Pages.
 
 Все показатели и контрагенты на сайте являются демонстрационными.
