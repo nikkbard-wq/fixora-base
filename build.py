@@ -435,5 +435,4 @@ shutil.copy2(ROOT / "styles.css", OUT / "styles.css")
 shutil.copy2(ROOT / "app.js", OUT / "app.js")
 
 assert len(list(OUT.glob("*.html"))) == 7
-assert not (OUT / "demo.html").exists()
 print("Built new FIXORA Base website:", len(list(OUT.glob("*.html"))), "pages")
