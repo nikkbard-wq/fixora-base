@@ -59,8 +59,7 @@
 (() => {
   const q=(s,r=document)=>r.querySelector(s), qa=(s,r=document)=>[...r.querySelectorAll(s)];
 
-  const mobileToggle=q('.mobile-toggle'), mobileMenu=q('.mobile-menu');
-  if(mobileToggle&&mobileMenu) mobileToggle.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+  // Mobile navigation is handled by the premium UX layer above.
 
   qa('[data-flow]').forEach(flow => {
     const steps=qa('.flow-step', flow);
