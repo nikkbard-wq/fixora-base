@@ -24,13 +24,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build FIXORA Base
+      - name: Build FIXORA Base website
         run: |
           python build.py
           test -f _site/index.html
+          test -f _site/product.html
+          test -f _site/purchasing.html
+          test -f _site/inventory.html
+          test -f _site/sales.html
+          test -f _site/architecture.html
+          test -f _site/extensions.html
           test -f _site/styles.css
           test -f _site/app.js
-          test -f _site/demo.html
+          test ! -f _site/demo.html
+          test "$(find _site -maxdepth 1 -name '*.html' | wc -l)" -eq 7
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
