@@ -399,3 +399,10 @@ img,svg{max-width:100%;height:auto}
   .mobile-nav-inner{max-height:calc(100dvh - 78px);top:70px}
   .hero{padding-top:100px}
 }
+
+.menu-button.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-button.open span:nth-child(2){opacity:0}
+.menu-button.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media (hover:none),(pointer:coarse){
+  .module-card:hover,.extension-card:hover,.system-module:hover{transform:none;box-shadow:initial}
+}
