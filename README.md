@@ -1,38 +1,45 @@
-# FIXORA Base Product Website
+# FIXORA Base Website
 
-Современный многостраничный Product Website + интерактивное Demo для FIXORA Base.
+Полностью новый product website для FIXORA Base.
 
-## Что внутри
+## Структура
 
-- 15 продуктовых страниц
-- Catalog / Partners / Purchasing / Inventory / Sales
-- интерактивные business-flow схемы
-- responsive layout
-- simulated frontend Demo
-- GitHub Pages deployment
+- Главная
+- Продукт
+- Закупки
+- Склад
+- Продажи
+- Архитектура
+- Расширения
 
-## Локальный запуск
+## FIXORA Base
 
-Можно открыть `index.html` напрямую или запустить локальный сервер:
+Base включает:
+
+- Catalog
+- Partners
+- Purchasing
+- Inventory
+- Sales
+
+Base работает как самостоятельный продукт.
+
+Finance, OCR & AI, 1C Integration, Manufacturing, Advanced Warehouse, Distribution, Advanced Analytics и Construction показаны только как отдельные подключаемые расширения.
+
+## Сборка
 
 ```bash
-python3 -m http.server 8080
+python build.py
 ```
 
-Затем открыть `http://localhost:8080`.
+Готовый сайт создаётся в каталоге `_site`.
 
-## GitHub Pages
+## Публикация
 
-Публикация выполняется автоматически через workflow `.github/workflows/pages.yml`.
+GitHub Pages автоматически публикует каталог `_site` через workflow:
 
-Сборка:
-1. восстанавливает генератор сайта;
-2. создаёт все страницы в `_site`;
-3. добавляет CSS и JavaScript;
-4. публикует `_site` через GitHub Pages.
+```
+.github/workflows/pages.yml
+```
 
-Все показатели и контрагенты на сайте являются демонстрационными.
-
-## Premium UI
-
-Сайт использует единый premium FIXORA visual layer: улучшенная типографика, навигация, карточки, таблицы, responsive states, микро-анимации и UX интерактивного Demo.
+Сайт intentionally не содержит интерактивной симуляции ERP. Основной фокус — понятное объяснение продукта FIXORA Base, его процессов и архитектуры.
