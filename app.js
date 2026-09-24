@@ -20,13 +20,19 @@
     menuButton.setAttribute('aria-expanded', String(open));
     mobileNav.setAttribute('aria-hidden', String(!open));
     mobileNav.classList.toggle('open', open);
+    menuButton.classList.toggle('open', open);
     document.body.style.overflow = open ? 'hidden' : '';
+    if (open) {
+      const firstLink = mobileNav.querySelector('a');
+      window.setTimeout(() => firstLink?.focus({preventScroll:true}), 50);
+    }
   };
   if (menuButton && mobileNav) {
     menuButton.addEventListener('click', () => setMenu(!mobileNav.classList.contains('open')));
     mobileNav.addEventListener('click', e => { if (e.target === mobileNav) setMenu(false); });
     qa('a', mobileNav).forEach(a => a.addEventListener('click', () => setMenu(false)));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 1120) setMenu(false); }, {passive:true});
   }
 
   const reveal = qa('.reveal');
@@ -54,7 +60,7 @@
   });
 
   const systemModules = qa('.system-module');
-  systemModules.forEach(module => {
+  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) systemModules.forEach(module => {
     module.addEventListener('mouseenter', () => {
       systemModules.forEach(m => m.style.opacity = m === module ? '1' : '.55');
     });
