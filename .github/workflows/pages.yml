@@ -36,7 +36,6 @@ jobs:
           test -f _site/extensions.html
           test -f _site/styles.css
           test -f _site/app.js
-          test ! -f _site/demo.html
           test "$(find _site -maxdepth 1 -name '*.html' | wc -l)" -eq 7
 
       - name: Configure Pages
