@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8fa">
+  <title>FIXORA Base — Рабочее Demo</title>
+  <meta name="description" content="Интерактивное рабочее Demo FIXORA Base: товары, контрагенты, закупки, склад и продажи.">
+  <link rel="stylesheet" href="demo.css?v=20260925-1">
+</head>
+<body>
+<div class="demo-app" id="demoApp">
+  <aside class="side" id="side">
+    <div class="side-head">
+      <a class="demo-logo" href="index.html"><span>F</span><b>FIXORA</b><em>BASE</em></a>
+      <button class="side-close" id="sideClose" aria-label="Закрыть меню">×</button>
+    </div>
+    <div class="demo-badge"><i></i><span><b>Рабочее Demo</b><small>данные хранятся локально</small></span></div>
+    <nav class="side-nav" aria-label="Demo навигация">
+      <button data-view="dashboard" class="active"><span class="nav-ico">⌂</span><span>Главная</span></button>
+      <div class="nav-group">BASE</div>
+      <button data-view="products"><span class="nav-ico">□</span><span>Товары</span><b id="navProductsCount">0</b></button>
+      <button data-view="partners"><span class="nav-ico">◎</span><span>Контрагенты</span><b id="navPartnersCount">0</b></button>
+      <button data-view="purchasing"><span class="nav-ico">↙</span><span>Закупки</span><b id="navReceiptsCount">0</b></button>
+      <button data-view="inventory"><span class="nav-ico">▦</span><span>Склад</span></button>
+      <button data-view="sales"><span class="nav-ico">↗</span><span>Продажи</span><b id="navOrdersCount">0</b></button>
+    </nav>
+    <div class="side-foot">
+      <a href="index.html">← Вернуться на сайт</a>
+      <button id="resetDemo">Сбросить Demo</button>
+    </div>
+  </aside>
+
+  <div class="side-overlay" id="sideOverlay"></div>
+
+  <main class="workspace">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Открыть меню">☰</button>
+        <div>
+          <small>FIXORA Base / Demo</small>
+          <h1 id="viewTitle">Главная</h1>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="local-state"><i></i> Локальные данные</span>
+        <button class="button ghost" id="quickAction">+ Создать</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="view active" data-view-panel="dashboard">
+        <div class="welcome">
+          <div>
+            <div class="eyebrow">ОПЕРАЦИОННЫЙ ОБЗОР</div>
+            <h2>FIXORA Base работает как единый товарный контур.</h2>
+            <p>Создайте товар, проведите приход, сформируйте заказ, зарезервируйте остаток и сделайте отгрузку. Все изменения склада рассчитываются автоматически.</p>
+          </div>
+          <div class="flow-mini">
+            <span>Закупка</span><i>→</i><span>Приход</span><i>→</i><b>Склад</b><i>→</i><span>Резерв</span><i>→</i><span>Отгрузка</span>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <button class="kpi" data-jump="products"><small>Активные товары</small><strong id="kpiProducts">0</strong><span>Catalog →</span></button>
+          <button class="kpi" data-jump="partners"><small>Контрагенты</small><strong id="kpiPartners">0</strong><span>Partners →</span></button>
+          <button class="kpi" data-jump="purchasing"><small>Проведённые приходы</small><strong id="kpiReceipts">0</strong><span>Purchasing →</span></button>
+          <button class="kpi accent" data-jump="sales"><small>Ожидают отгрузки</small><strong id="kpiToShip">0</strong><span>Sales →</span></button>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel">
+            <div class="panel-head"><div><small>СКЛАД</small><h3>Текущие остатки</h3></div><button class="text-button" data-jump="inventory">Открыть склад →</button></div>
+            <div id="dashboardStock"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><small>ИСТОРИЯ</small><h3>Последние движения</h3></div></div>
+            <div id="dashboardMovements"></div>
+          </article>
+        </div>
+
+        <article class="panel quick-start">
+          <div class="panel-head"><div><small>БЫСТРЫЙ СЦЕНАРИЙ</small><h3>Проверьте Base за несколько действий</h3></div></div>
+          <div class="quick-grid">
+            <button data-action="newProduct"><b>01</b><span>Создать товар<small>Добавить новый SKU</small></span><i>→</i></button>
+            <button data-action="newReceipt"><b>02</b><span>Сделать приход<small>Увеличить On Hand</small></span><i>→</i></button>
+            <button data-action="newOrder"><b>03</b><span>Создать заказ<small>Заказ клиента</small></span><i>→</i></button>
+            <button data-jump="sales"><b>04</b><span>Резерв и отгрузка<small>Reserved → Stock Out</small></span><i>→</i></button>
+          </div>
+        </article>
+      </section>
+
+      <section class="view" data-view-panel="products">
+        <div class="page-head">
+          <div><div class="eyebrow">CATALOG</div><h2>Товары</h2><p>Один Item используется в закупках, на складе и в продажах.</p></div>
+          <button class="button primary" data-action="newProduct">+ Новый товар</button>
+        </div>
+        <article class="panel">
+          <div class="toolbar"><label class="search"><span>⌕</span><input id="productSearch" type="search" placeholder="Найти по названию или SKU"></label><span class="toolbar-note" id="productCountLabel"></span></div>
+          <div class="table-wrap"><table><thead><tr><th>SKU</th><th>Товар</th><th>Категория</th><th>Ед.</th><th class="num">On Hand</th><th class="num">Reserved</th><th class="num">Available</th><th>Статус</th><th></th></tr></thead><tbody id="productsBody"></tbody></table></div>
+          <div class="empty hidden" id="productsEmpty"><span>□</span><h3>Товаров пока нет</h3><p>Создайте первый Item для работы с закупками и продажами.</p><button class="button primary" data-action="newProduct">Создать товар</button></div>
+        </article>
+      </section>
+
+      <section class="view" data-view-panel="partners">
+        <div class="page-head">
+          <div><div class="eyebrow">PARTNERS</div><h2>Контрагенты</h2><p>Клиенты и поставщики в одном справочнике без дублей.</p></div>
+          <button class="button primary" data-action="newPartner">+ Новый контрагент</button>
+        </div>
+        <article class="panel">
+          <div class="toolbar"><label class="search"><span>⌕</span><input id="partnerSearch" type="search" placeholder="Найти компанию"></label><div class="segmented" id="partnerFilter"><button data-role="all" class="active">Все</button><button data-role="supplier">Поставщики</button><button data-role="customer">Клиенты</button></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Компания</th><th>IDNO</th><th>Роль</th><th>Контакт</th><th>Статус</th><th></th></tr></thead><tbody id="partnersBody"></tbody></table></div>
+          <div class="empty hidden" id="partnersEmpty"><span>◎</span><h3>Контрагентов пока нет</h3><p>Добавьте поставщика или клиента.</p><button class="button primary" data-action="newPartner">Создать контрагента</button></div>
+        </article>
+      </section>
+
+      <section class="view" data-view-panel="purchasing">
+        <div class="page-head">
+          <div><div class="eyebrow">PURCHASING</div><h2>Закупки</h2><p>В Demo приход сразу создаёт подтверждённое движение Stock In.</p></div>
+          <button class="button primary" data-action="newReceipt">+ Новый приход</button>
+        </div>
+        <div class="rule-card"><span>↙</span><div><b>Проведённый приход увеличивает физический остаток.</b><small>On Hand нельзя изменить вручную — только через документ и движение.</small></div><code>RECEIPT → STOCK IN</code></div>
+        <article class="panel">
+          <div class="panel-head"><div><small>ДОКУМЕНТЫ</small><h3>Приходы</h3></div><span class="muted" id="receiptCountLabel"></span></div>
+          <div class="table-wrap"><table><thead><tr><th>Номер</th><th>Дата</th><th>Поставщик</th><th class="num">Позиций</th><th class="num">Сумма</th><th>Статус</th><th></th></tr></thead><tbody id="receiptsBody"></tbody></table></div>
+          <div class="empty hidden" id="receiptsEmpty"><span>↙</span><h3>Приходов пока нет</h3><p>Создайте первый приход от поставщика.</p><button class="button primary" data-action="newReceipt">Создать приход</button></div>
+        </article>
+      </section>
+
+      <section class="view" data-view-panel="inventory">
+        <div class="page-head">
+          <div><div class="eyebrow">INVENTORY</div><h2>Склад</h2><p>On Hand формируется из движений. Available = On Hand − Reserved.</p></div>
+        </div>
+        <div class="stock-kpis">
+          <div><small>SKU с остатком</small><strong id="stockSkuCount">0</strong></div>
+          <div><small>Зарезервировано позиций</small><strong id="reservedSkuCount">0</strong></div>
+          <div><small>Движений</small><strong id="movementCount">0</strong></div>
+        </div>
+        <article class="panel">
+          <div class="panel-head"><div><small>ОСТАТКИ</small><h3>Товары на складе</h3></div></div>
+          <div class="table-wrap"><table><thead><tr><th>SKU</th><th>Товар</th><th>Ед.</th><th class="num">On Hand</th><th class="num">Reserved</th><th class="num">Available</th><th>Состояние</th></tr></thead><tbody id="stockBody"></tbody></table></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><small>TRACEABILITY</small><h3>История движений</h3></div><span class="muted">Каждое движение имеет источник</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Дата</th><th>Тип</th><th>Товар</th><th>Источник</th><th class="num">Количество</th></tr></thead><tbody id="movementsBody"></tbody></table></div>
+          <div class="empty hidden" id="movementsEmpty"><span>⇄</span><h3>Движений пока нет</h3><p>Проведите приход или отгрузку.</p></div>
+        </article>
+      </section>
+
+      <section class="view" data-view-panel="sales">
+        <div class="page-head">
+          <div><div class="eyebrow">SALES</div><h2>Продажи</h2><p>Заказ → резерв → отгрузка. Резерв уменьшает Available, отгрузка уменьшает On Hand.</p></div>
+          <button class="button primary" data-action="newOrder">+ Новый заказ</button>
+        </div>
+        <div class="rule-card sales-rule"><span>↗</span><div><b>Резерв не уменьшает физический остаток.</b><small>Только проведённая отгрузка создаёт Stock Out.</small></div><code>ORDER → RESERVE → SHIPMENT</code></div>
+        <article class="panel">
+          <div class="panel-head"><div><small>ЗАКАЗЫ КЛИЕНТОВ</small><h3>Sales Orders</h3></div><span class="muted" id="orderCountLabel"></span></div>
+          <div class="orders-list" id="ordersList"></div>
+          <div class="empty hidden" id="ordersEmpty"><span>↗</span><h3>Заказов пока нет</h3><p>Создайте заказ клиента и зарезервируйте товар.</p><button class="button primary" data-action="newOrder">Создать заказ</button></div>
+        </article>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="modal-layer" id="modalLayer" aria-hidden="true">
+  <div class="modal-backdrop" data-close-modal></div>
+  <section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <header><div><small id="modalKicker">FIXORA BASE</small><h2 id="modalTitle">Создать</h2></div><button data-close-modal aria-label="Закрыть">×</button></header>
+    <div class="modal-body" id="modalBody"></div>
+    <footer id="modalFooter"></footer>
+  </section>
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<template id="lineTemplate">
+  <div class="doc-line">
+    <select data-line-product></select>
+    <input data-line-qty type="number" min="0.001" step="0.001" placeholder="Кол-во">
+    <input data-line-price type="number" min="0" step="0.01" placeholder="Цена">
+    <button type="button" data-remove-line aria-label="Удалить строку">×</button>
+  </div>
+</template>
+
+<script src="demo.js?v=20260925-1"></script>
+</body>
+</html>
