@@ -24,8 +24,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build FIXORA Base website
+      - name: Build and validate FIXORA Base website
         run: |
+          python -m py_compile build.py
+          node --check app.js
+          node --check demo.js
           python build.py
           test -f _site/index.html
           test -f _site/product.html
@@ -40,6 +43,41 @@ jobs:
           test -f _site/styles.css
           test -f _site/app.js
           test "$(find _site -maxdepth 1 -name '*.html' | wc -l)" -eq 8
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlsplit
+
+          root = Path("_site")
+          missing = []
+
+          class P(HTMLParser):
+              def __init__(self, source):
+                  super().__init__()
+                  self.source = source
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  for key in ("href", "src"):
+                      value = attrs.get(key)
+                      if not value or value.startswith(("#", "mailto:", "tel:", "javascript:", "data:")):
+                          continue
+                      parts = urlsplit(value)
+                      if parts.scheme or parts.netloc:
+                          continue
+                      target = (root / parts.path)
+                      if parts.path.endswith("/"):
+                          target = target / "index.html"
+                      if not target.exists():
+                          missing.append((self.source.name, key, value))
+
+          for page in root.glob("*.html"):
+              parser = P(page)
+              parser.feed(page.read_text(encoding="utf-8"))
+
+          if missing:
+              raise SystemExit("Broken local references: " + repr(missing))
+          print("Validated local references across", len(list(root.glob("*.html"))), "HTML pages")
+          PY
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
