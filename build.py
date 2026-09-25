@@ -40,7 +40,7 @@ def shell(title, description, page, body):
       <span class="logo-base">BASE</span>
     </a>
     <nav class="nav" aria-label="Основная навигация">{nav}</nav>
-    <a class="header-cta" href="product.html">Что входит в Base</a>
+    <a class="header-cta" href="demo.html">Открыть Demo</a>
     <button class="menu-button" aria-label="Открыть меню" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -49,7 +49,7 @@ def shell(title, description, page, body):
     <div class="mobile-nav-inner">
       <a href="index.html">Главная</a>
       {nav}
-      <a class="mobile-cta" href="product.html">Что входит в Base</a>
+      <a class="mobile-cta" href="demo.html">Открыть Demo</a>
     </div>
   </div>
   <main>{body}</main>
@@ -435,4 +435,4 @@ shutil.copy2(ROOT / "styles.css", OUT / "styles.css")
 shutil.copy2(ROOT / "app.js", OUT / "app.js")
 
 assert len(list(OUT.glob("*.html"))) == 7
-print("Built new FIXORA Base website:", len(list(OUT.glob("*.html"))), "pages")
+print("Built FIXORA Base website + working Demo:", len(list(OUT.glob("*.html"))), "pages")
