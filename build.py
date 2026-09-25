@@ -433,6 +433,9 @@ for filename, (title, desc, page, body) in pages.items():
 
 shutil.copy2(ROOT / "styles.css", OUT / "styles.css")
 shutil.copy2(ROOT / "app.js", OUT / "app.js")
+shutil.copy2(ROOT / "demo.html", OUT / "demo.html")
+shutil.copy2(ROOT / "demo.css", OUT / "demo.css")
+shutil.copy2(ROOT / "demo.js", OUT / "demo.js")
 
-assert len(list(OUT.glob("*.html"))) == 7
+assert len(list(OUT.glob("*.html"))) == 8
 print("Built FIXORA Base website + working Demo:", len(list(OUT.glob("*.html"))), "pages")
