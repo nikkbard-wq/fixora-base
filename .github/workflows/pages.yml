@@ -34,9 +34,12 @@ jobs:
           test -f _site/sales.html
           test -f _site/architecture.html
           test -f _site/extensions.html
+          test -f _site/demo.html
+          test -f _site/demo.css
+          test -f _site/demo.js
           test -f _site/styles.css
           test -f _site/app.js
-          test "$(find _site -maxdepth 1 -name '*.html' | wc -l)" -eq 7
+          test "$(find _site -maxdepth 1 -name '*.html' | wc -l)" -eq 8
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
